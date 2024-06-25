@@ -1,31 +1,11 @@
 <template>
   <el-container>
     <el-aside width="auto">
-      <el-menu
-        :collapse="isCollapse"
-        default-active="2"
-        class="el-menu-vertical-demo"
-      >
-        <el-menu-item index="1">
-          <el-icon-menu />
-          <span>导航一</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <el-icon-menu />
-          <span>导航二</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <el-icon-menu />
-          <span>导航三</span>
-        </el-menu-item>
-      </el-menu>
+      <nav-side :collapse="isCollapse"></nav-side>
     </el-aside>
     <el-container>
       <el-header>
-        <span @click="toggle">
-          <el-icon-expand v-if="isCollapse"></el-icon-expand>
-          <el-icon-fold v-else></el-icon-fold>
-        </span>
+        <nav-header v-model:collapse="isCollapse"></nav-header>
       </el-header>
       <el-main>
         <router-view></router-view>
@@ -36,16 +16,15 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-let isCollapse = ref(true);
+import NavHeader from "./navHeader/index.vue";
+import NavSide from "./navSide/index.vue";
 
-const toggle = () => {
-  isCollapse.value = !isCollapse.value;
-};
+let isCollapse = ref(true);
 </script>
 
 <style scoped lang="scss">
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+.el-header {
+  padding: 0;
+  border-bottom: 1px solid #eee;
 }
 </style>
