@@ -9,6 +9,7 @@
           class="item"
           v-for="(item, index) in Object.keys(ElIcons)"
           :key="index"
+          @click="clickItem(item)"
         >
           <div class="text">
             <!-- 动态组件 -->
@@ -26,6 +27,8 @@ import * as ElIcons from "@element-plus/icons-vue";
 // 引入 vue的特性 watch 监听
 import { watch, ref } from "vue";
 import { toLine } from "../../../utils";
+import { useCopy } from "../../../hooks/useCopy";
+
 // 1.接收父组件传值：标题，和控制图标选择的布尔值；
 let props = defineProps<{
   // 1.1.弹出框的标题
@@ -41,11 +44,19 @@ let emits = defineEmits(["update:visible"]);
 // 所以用 `dialogVisible`，传递的初始值就是 `props.visible`。
 // 所以用的时候，通通都是用的是 dialogVisible 的值。
 let dialogVisible = ref<boolean>(props.visible);
+// 点击按钮显示弹出框
 let handleClick = () => {
   // 同样地，
   // 1.需要修改父组件的数据
   emits("update:visible", !props.visible);
 };
+let clickItem = (item: string) => {
+  let text = `<el-icon-${toLine(item)} />`;
+  // 复制文本
+  useCopy(text);
+  // 关闭弹框
+  dialogVisible.value = false
+}
 // 监听 visible 的变化（只能监听第一次的变化）
 // - 因为第一次，从父组件传过来的 visible，把它赋值成了 dialogVisible，
 // - 现在 dialogVisible 传递到了 el-dialog 的内部，
