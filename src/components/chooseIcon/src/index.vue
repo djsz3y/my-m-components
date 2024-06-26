@@ -2,12 +2,30 @@
   <el-button @click="handleClick" type="primary">
     <slot></slot>
   </el-button>
-  <el-dialog :title="title" v-model="dialogVisible"> 111 </el-dialog>
+  <div class="m-choose-icon-dialog-body-height">
+    <el-dialog :title="title" v-model="dialogVisible">
+      <div class="container">
+        <div
+          class="item"
+          v-for="(item, index) in Object.keys(ElIcons)"
+          :key="index"
+        >
+          <div class="text">
+            <!-- 动态组件 -->
+            <component :is="`el-icon-${toLine(item)}`" />
+          </div>
+          <div class="icon">{{ item }}</div>
+        </div>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
+import * as ElIcons from "@element-plus/icons-vue";
 // 引入 vue的特性 watch 监听
 import { watch, ref } from "vue";
+import { toLine } from "../../../utils";
 // 1.接收父组件传值：标题，和控制图标选择的布尔值；
 let props = defineProps<{
   // 1.1.弹出框的标题
@@ -73,4 +91,29 @@ watch(
 // - 所以在这用了两次监听，这也是一个小技巧，后面跟弹框相关的都会用到它，很重要哈。
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.item {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  height: 70px;
+}
+.text {
+  font-size: 14px;
+}
+.icon {
+  flex: 1;
+}
+svg {
+  width: 2em;
+  height: 2em;
+}
+</style>
