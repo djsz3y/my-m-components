@@ -1,8 +1,9 @@
 import { App } from "vue";
 import chooseArea from "./chooseArea";
+import chooseTown from "./chooseTown";
 import chooseIcon from "./chooseIcon";
 
-const components = [chooseArea, chooseIcon];
+const components = [chooseArea, chooseTown, chooseIcon];
 
 export default {
   install(app: App) {

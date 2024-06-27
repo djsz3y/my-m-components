@@ -26,6 +26,7 @@
     <el-select
       clearable
       :disabled="!province || !city"
+      style="margin: 0 10px 0 0"
       placeholder="请选择区域"
       v-model="area"
     >
