@@ -19,7 +19,7 @@ import { ref } from "vue";
 import NavHeader from "./navHeader/index.vue";
 import NavSide from "./navSide/index.vue";
 
-let isCollapse = ref(true);
+let isCollapse = ref(false);
 </script>
 
 <style scoped lang="scss">
