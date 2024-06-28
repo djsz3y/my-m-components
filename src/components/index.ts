@@ -1,9 +1,10 @@
 import { App } from "vue";
 import chooseArea from "./chooseArea";
 import chooseTown from "./chooseTown";
+import chooseAreaCascader from "./chooseAreaCascader";
 import chooseIcon from "./chooseIcon";
 
-const components = [chooseArea, chooseTown, chooseIcon];
+const components = [chooseArea, chooseTown, chooseAreaCascader, chooseIcon];
 
 export default {
   install(app: App) {
