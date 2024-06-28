@@ -21,13 +21,21 @@
     <m-trend text="销售业绩"></m-trend> -->
 
     3.实现颜色反转：<br /><br />
-    <m-trend text="销售额" reverseColor></m-trend>
+    <!-- <m-trend text="销售额" reverseColor></m-trend>
     <m-trend
       text="销售业绩"
       type="down"
       reverseColor
       downIconColor="yellow"
-    ></m-trend>
+    ></m-trend> -->
+
+    4.实现计算属性的文字颜色：<br /><br />
+    <!-- <m-trend text="营业额" upTextColor="blue"></m-trend>
+    <m-trend text="销售额" type="down" downTextColor="yellow"></m-trend> -->
+
+    5.自定义图标：<br /><br />
+    <m-trend upIcon="CaretTop">营业额</m-trend>
+    <m-trend type="down" downIcon="CaretBottom">销售额</m-trend>
   </div>
 </template>
 
