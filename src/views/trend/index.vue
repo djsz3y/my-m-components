@@ -36,6 +36,10 @@
     5.自定义图标：<br /><br />
     <m-trend upIcon="CaretTop">营业额</m-trend>
     <m-trend type="down" downIcon="CaretBottom">销售额</m-trend>
+
+    6.自定义文字大小：<br /><br />
+    <m-trend fontSize="24px">营业额</m-trend>
+    <m-trend type="down" fontSize="36px">销售额</m-trend>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="trend">
-    <div class="text" :style="{ color: textColor }">
+    <div class="text" :style="{ color: textColor, fontSize: fontSize }">
       <!-- 2）插槽显示文字——利用 vue3 的 useSlot 的特性（小技巧） -->
 
       <!-- 【2】运用 useSlots() 的特性——命名插槽的名字，默认 default，所以这里是 slots.default -->
@@ -111,6 +111,12 @@ let props = defineProps({
   downTextColor: {
     type: String,
     default: "rgb(0, 0, 0)",
+  },
+
+  // 自定义文字大小
+  fontSize: {
+    type: String,
+    default: "12px",
   },
 });
 
