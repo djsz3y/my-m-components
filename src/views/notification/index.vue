@@ -20,6 +20,20 @@
         ></m-list>
       </template>
     </m-notification>
+    <br />
+    <br />
+    
+    添加 disabled 属性：
+    <m-notification :value="100" disabled>
+      <template #default>
+        <m-list
+          @clickItem="clickItem"
+          @clickAction="clickAction"
+          :list="list"
+          :actions="actions"
+        ></m-list>
+      </template>
+    </m-notification>
   </div>
 </template>
 

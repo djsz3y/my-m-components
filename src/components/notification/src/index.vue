@@ -1,16 +1,27 @@
 <template>
-  <el-popover placement="bottom" :width="300" trigger="click">
+  <el-popover
+    placement="bottom"
+    :width="300"
+    trigger="click"
+    :disabled="disabled"
+  >
     <template #default>
       <slot></slot>
     </template>
     <template #reference>
       <el-badge
-        style="cursor: pointer"
+        :style="[
+          { cursor: !disabled ? 'pointer' : 'not-allowed' },
+          { filter: !disabled ? 'none' : 'grayscale(100%)' },
+        ]"
         :value="value"
         :max="max"
         :is-dot="isDot"
       >
-        <component :is="`el-icon-${toLine(icon)}`"></component>
+        <component
+          :is="`el-icon-${toLine(icon)}`"
+          :style="{ 'not-allowed': disabled }"
+        ></component>
       </el-badge>
     </template>
   </el-popover>
@@ -36,6 +47,11 @@ let props = defineProps({
   },
   // 是否显示小圆点
   isDot: {
+    type: Boolean,
+    default: false,
+  },
+  // 是否禁用
+  disabled: {
     type: Boolean,
     default: false,
   },
