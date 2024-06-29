@@ -11,6 +11,7 @@
             class="container"
             v-for="(item1, index1) in item.content"
             :key="index1"
+            @click="clickItem(item1, index1)"
           >
             <div class="avatar" v-if="item1.avatar">
               <!-- 组合式使用 element-plus 头像的 avatar 组件 -->
@@ -33,6 +34,7 @@
               :class="{ border: i !== actions.length }"
               v-for="(action, i) in actions"
               :key="i"
+              @click="clickAction(action, i)"
             >
               <div class="a-icon" v-if="action.icon">
                 <component :is="`el-icon-${toLine(action.icon)}`"></component>
@@ -48,7 +50,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
-import { ActionOptions, ListOptions } from "./types";
+import { ActionOptions, ListItem, ListOptions } from "./types";
 import { toLine } from "../../../utils";
 let props = defineProps({
   // 列表的内容
@@ -64,7 +66,14 @@ let props = defineProps({
 });
 // 整体列表设计好了。
 
-console.log(props.list);
+let emits = defineEmits(["clickItem", "clickAction"]);
+
+let clickItem = (item: ListItem, index: number) => {
+  emits("clickItem", { item, index });
+};
+let clickAction = (item: ActionOptions, index: number) => {
+  emits("clickAction", { item, index });
+};
 </script>
 
 <style scoped lang="scss">
@@ -104,6 +113,7 @@ console.log(props.list);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     .a-icon {
       margin-right: 4px;
       position: relative;

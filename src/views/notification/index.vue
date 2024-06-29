@@ -12,7 +12,12 @@
     <m-notification icon="ChatRound" :value="50"></m-notification> -->
     <m-notification :value="50">
       <template #default>
-        <m-list :list="list" :actions="actions"></m-list>
+        <m-list
+          @clickItem="clickItem"
+          @clickAction="clickAction"
+          :list="list"
+          :actions="actions"
+        ></m-list>
       </template>
     </m-notification>
   </div>
@@ -20,6 +25,12 @@
 
 <script setup lang="ts">
 import { list, actions } from "./data.ts";
+let clickItem = (val: any) => {
+  console.log(val);
+};
+let clickAction = (val: any) => {
+  console.log(val);
+};
 </script>
 
 <style scoped lang="scss"></style>
