@@ -3,9 +3,17 @@ import chooseArea from "./chooseArea";
 import chooseTown from "./chooseTown";
 import chooseAreaCascader from "./chooseAreaCascader";
 import chooseIcon from "./chooseIcon";
-import trend from './trend';
+import trend from "./trend";
+import notification from "./notification";
 
-const components = [chooseArea, chooseTown, chooseAreaCascader, chooseIcon, trend];
+const components = [
+  chooseArea,
+  chooseTown,
+  chooseAreaCascader,
+  chooseIcon,
+  trend,
+  notification,
+];
 
 export default {
   install(app: App) {
