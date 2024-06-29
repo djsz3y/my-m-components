@@ -5,4 +5,7 @@
 <style lang="scss">
 @import "./styles/ui";
 @import "./styles/base";
+.el-popper {
+  padding: 0 !important;
+}
 </style>
