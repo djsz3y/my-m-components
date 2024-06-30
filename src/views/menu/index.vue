@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <m-menu :data="data1"></m-menu>
+  <div style="width: 200px">
+    <m-menu :data="data1" defaultActive="2" router></m-menu>
   </div>
 </template>
 
