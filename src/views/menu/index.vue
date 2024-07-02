@@ -8,6 +8,8 @@
       index="b"
       icon="c"
       children="d"
+      @select="handleSelect1"
+      @click="handleClick1"
     ></m-menu>
 
     <m-infinite-menu
@@ -18,6 +20,8 @@
       index="b"
       icon="c"
       children="d"
+      @select="handleSelect2"
+      @click="handleClick2"
     ></m-infinite-menu>
     <!-- defaultActive="3-1-1-1-1" -->
   </div>
@@ -93,6 +97,22 @@ let data2 = [
     ],
   },
 ];
+
+let handleSelect1 = (val: any) => {
+  console.log("select", val);
+};
+
+let handleSelect2 = (val: any) => {
+  console.log("select", val);
+};
+
+let handleClick1 = (val: any) => {
+  console.log("click", val);
+};
+
+let handleClick2 = (val: any) => {
+  console.log("click", val);
+};
 </script>
 
 <style scoped lang="scss"></style>

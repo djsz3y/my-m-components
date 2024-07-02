@@ -5,11 +5,13 @@
     :default-active="defaultActive"
     :router="router"
     v-bind="$attrs"
+    @select="handleSelect"
   >
     <template v-for="(item, i) in data" :key="i">
       <el-menu-item
         v-if="!item[children] || !item[children].length"
         :index="item[index]"
+        @click="handleClick"
       >
         <component
           v-if="item[icon]"
@@ -32,6 +34,7 @@
           v-for="(item1, index1) in item[children]"
           :key="index1"
           :index="item1[index]"
+          @click="handleClick"
         >
           <component
             v-if="item1[icon]"
@@ -87,6 +90,22 @@ const props = defineProps({
   },
 });
 console.log(props.data);
+
+// 分发事件给父组件
+let emits = defineEmits(["select", "click"]);
+
+let handleSelect = (
+  index: string,
+  indexPath: string[],
+  item: any,
+  routeResult: any
+) => {
+  emits("select", { index, indexPath, item, routeResult });
+};
+
+let handleClick = (item: any) => {
+  emits("click", item);
+};
 </script>
 
 <style scoped lang="scss">
