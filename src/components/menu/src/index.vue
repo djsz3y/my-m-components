@@ -1,38 +1,43 @@
 <template>
   <!-- {{ $attrs }} -->
-  <el-menu :default-active="defaultActive" :router="router" v-bind="$attrs">
-    <template v-for="(item, index) in data" :key="index">
+  <el-menu
+    class="el-menu-vertical-demo"
+    :default-active="defaultActive"
+    :router="router"
+    v-bind="$attrs"
+  >
+    <template v-for="(item, i) in data" :key="i">
       <el-menu-item
-        v-if="!item.children || !item.children.length"
-        :index="item.index"
+        v-if="!item[children] || !item[children].length"
+        :index="item[index]"
       >
         <component
-          v-if="item.icon"
-          :is="`el-icon-${toLine(item.icon)}`"
+          v-if="item[icon]"
+          :is="`el-icon-${toLine(item[icon])}`"
         ></component>
-        <span>{{ item.name }}</span>
+        <span>{{ item[name] }}</span>
       </el-menu-item>
       <el-sub-menu
-        v-if="item.children && item.children.length"
-        :index="item.index"
+        v-if="item[children] && item[children].length"
+        :index="item[index]"
       >
         <template #title>
           <component
-            v-if="item.icon"
-            :is="`el-icon-${toLine(item.icon)}`"
+            v-if="item[icon]"
+            :is="`el-icon-${toLine(item[icon])}`"
           ></component>
-          <span>{{ item.name }}</span>
+          <span>{{ item[name] }}</span>
         </template>
         <el-menu-item
-          v-for="(item1, index1) in item.children"
+          v-for="(item1, index1) in item[children]"
           :key="index1"
-          :index="item1.index"
+          :index="item1[index]"
         >
           <component
-            v-if="item1.icon"
-            :is="`el-icon-${toLine(item1.icon)}`"
+            v-if="item1[icon]"
+            :is="`el-icon-${toLine(item1[icon])}`"
           ></component>
-          <span>{{ item1.name }}</span>
+          <span>{{ item1[name] }}</span>
         </el-menu-item>
       </el-sub-menu>
     </template>
@@ -41,13 +46,12 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
-import { MenuItem } from "./types";
 import { toLine } from "../../../utils";
 
 const props = defineProps({
   // 导航菜单的数据
   data: {
-    type: Array as PropType<MenuItem[]>,
+    type: Array as PropType<any[]>,
     required: true,
   },
   // 默认选中的菜单
@@ -60,6 +64,27 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // 键名
+  // 菜单标题的键名：
+  name: {
+    type: String,
+    default: "name",
+  },
+  // 菜单标识的键名：
+  index: {
+    type: String,
+    default: "index",
+  },
+  // 菜单图标的键名：
+  icon: {
+    type: String,
+    default: "icon",
+  },
+  // 菜单子菜单的键名：
+  children: {
+    type: String,
+    default: "children",
+  },
 });
 console.log(props.data);
 </script>
@@ -67,5 +92,9 @@ console.log(props.data);
 <style scoped lang="scss">
 svg {
   margin-right: 4px;
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 </style>
