@@ -45,6 +45,7 @@ import { MenuItem } from "./types";
 import { toLine } from "../../../utils";
 
 const props = defineProps({
+  // 导航菜单的数据
   data: {
     type: Array as PropType<MenuItem[]>,
     required: true,
