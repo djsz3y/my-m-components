@@ -89,7 +89,7 @@ const props = defineProps({
     default: "children",
   },
 });
-console.log(props.data);
+// console.log(props.data);
 
 // 分发事件给父组件
 let emits = defineEmits(["select", "click"]);
