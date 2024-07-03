@@ -7,6 +7,7 @@ import trend from "./trend";
 import notification from "./notification";
 import list from "./list";
 import menu from "./menu";
+import progress from "./progress";
 
 const components = [
   chooseArea,
@@ -17,6 +18,7 @@ const components = [
   notification,
   list,
   menu,
+  progress,
 ];
 
 export default {
