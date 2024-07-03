@@ -3,7 +3,7 @@
     <div style="margin-right: 20px; width: 200px">
       <el-time-select
         v-model="startTime"
-        :placeHolder="startPlaceholder"
+        :placeholder="startPlaceholder"
         :start="startTimeStart"
         :step="startStep"
         :end="startTimeEnd"
@@ -14,7 +14,7 @@
       <el-time-select
         v-model="endTime"
         :min-time="startTime"
-        :placeHolder="endPlaceholder"
+        :placeholder="endPlaceholder"
         :start="endTimeStart"
         :step="endStep"
         :end="endTimeEnd"
