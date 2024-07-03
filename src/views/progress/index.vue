@@ -9,10 +9,15 @@
       :stroke-width="22"
       :percentage="80"
       status="warning"
+      @progressDone="progressDone"
     ></m-progress>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+let progressDone = (val: any) => {
+  console.log(val);
+};
+</script>
 
 <style scoped></style>

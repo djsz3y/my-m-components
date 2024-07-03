@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted,ref } from 'vue';
+import { onMounted, ref } from "vue";
 let props = defineProps({
   // 进度条进度
   percentage: {
@@ -21,23 +21,29 @@ let props = defineProps({
     default: 3000,
   },
 });
-let p = ref(0)
+let emits = defineEmits(["progressDone"]);
+let progressDone = () => {
+  emits("progressDone", p.value);
+};
+let p = ref(0);
 
 onMounted(() => {
-  if(props.isAnimation) {
+  if (props.isAnimation) {
     // 动态控制进度：在规定时间内，把进度加载完成。
-    let t = Math.ceil(props.time / props.percentage)
+    let t = Math.ceil(props.time / props.percentage);
     let timer = setInterval(() => {
-      p.value += 1
-      if(p.value >= props.percentage) {
-        p.value = props.percentage
-        clearInterval(timer)
+      p.value += 1;
+      if (p.value >= props.percentage) {
+        p.value = props.percentage;
+        clearInterval(timer);
+        progressDone();
       }
-    }, t)
+    }, t);
   } else {
-    p.value = props.percentage
+    p.value = props.percentage;
+    progressDone();
   }
-})
+});
 </script>
 
 <style scoped></style>
