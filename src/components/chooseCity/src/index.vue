@@ -39,16 +39,22 @@
       </el-row>
       <div class="city">
         <!-- <div v-for="(value, key) in cities">{{ key }}</div> -->
-        <div class="city-item" v-for="(item, index) in Object.keys(cities)">
+        <!-- 字母区域 -->
+        <div
+          class="city-item"
+          @click="clickChat(item)"
+          v-for="(item, index) in Object.keys(cities)"
+        >
           {{ item }}
         </div>
       </div>
-      <el-scrollbar max-height="300px;">
+      <el-scrollbar max-height="300">
         <template v-for="(value, key) in cities" :key="key">
-          <el-row style="margin-bottom: 10px">
+          <el-row style="margin-bottom: 10px" :id="key">
             <el-col :span="2">{{ key }}:</el-col>
             <el-col :span="22" class="city-name">
               <div
+                @click="clickItem(item)"
                 class="city-name-item"
                 v-for="(item, index) in value"
                 :key="item.id"
@@ -66,14 +72,24 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import city from "../lib/city";
+import { City } from "./types";
+
+// 被子组件内部点击的时候，要通知父组件，选择的是哪一个：
+// 分发事件
+let emits = defineEmits(["change"]);
 
 // 有区域供用户所点击，存在初始值和箭头；
 // 箭头有动画效果，点开向上，再点击向下；
+
+// 最终选择的结果
 let result = ref<string>("请选择");
+// 控制弹出层的显示
 let visible = ref<boolean>(false);
+// 单选框的值 按城市还是按省份选择
 let radioValue = ref<string>("按城市");
+// 下拉框的值 搜索下拉框
 let selectValue = ref<string>("");
-let cities = ref(city.cities);
+// 下拉框显示城市的数据
 const options = ref([
   {
     value: "Option1",
@@ -96,6 +112,24 @@ const options = ref([
     label: "Option5",
   },
 ]);
+// 所有的城市数据
+let cities = ref(city.cities);
+
+// 点击每个城市
+let clickItem = (item: City) => {
+  // 1.关闭弹出层
+  // 2.给 result 赋值
+  result.value = item.name;
+  // ⭐ 这就是为什么要绑定 visible 的原因，因为要手动的关闭弹出层。
+  visible.value = false;
+  emits("change", item);
+};
+
+// 点击字母区域
+let clickChat = (item: string) => {
+  let el = document.getElementById(item);
+  if (el) el.scrollIntoView();
+};
 </script>
 
 <style scoped lang="scss">
@@ -130,6 +164,7 @@ svg {
     margin-right: 8px;
     margin-bottom: 8px;
     border: 1px solid #eee;
+    cursor: pointer;
   }
 }
 .city-name {
