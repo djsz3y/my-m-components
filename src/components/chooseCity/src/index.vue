@@ -37,34 +37,69 @@
           </el-select>
         </el-col>
       </el-row>
-      <div class="city">
-        <!-- <div v-for="(value, key) in cities">{{ key }}</div> -->
-        <!-- 字母区域 -->
-        <div
-          class="city-item"
-          @click="clickChat(item)"
-          v-for="(item, index) in Object.keys(cities)"
-        >
-          {{ item }}
+      <template v-if="radioValue === '按城市'">
+        <div class="city">
+          <!-- <div v-for="(value, key) in cities">{{ key }}</div> -->
+          <!-- 字母区域 -->
+          <div
+            class="city-item"
+            @click="clickChat(item)"
+            v-for="(item, index) in Object.keys(cities)"
+          >
+            {{ item }}
+          </div>
         </div>
-      </div>
-      <el-scrollbar max-height="300">
-        <template v-for="(value, key) in cities" :key="key">
-          <el-row style="margin-bottom: 10px" :id="key">
-            <el-col :span="2">{{ key }}:</el-col>
-            <el-col :span="22" class="city-name">
-              <div
-                @click="clickItem(item)"
-                class="city-name-item"
-                v-for="(item, index) in value"
-                :key="item.id"
-              >
-                <div>{{ item.name }}</div>
-              </div>
-            </el-col>
-          </el-row>
-        </template>
-      </el-scrollbar>
+        <el-scrollbar max-height="300">
+          <template v-for="(value, key) in cities" :key="key">
+            <el-row style="margin-bottom: 10px" :id="key">
+              <el-col :span="3">{{ key }}:</el-col>
+              <el-col :span="21" class="city-name">
+                <div
+                  @click="clickItem(item)"
+                  class="city-name-item"
+                  v-for="(item, index) in value"
+                  :key="item.id"
+                >
+                  <div>{{ item.name }}</div>
+                </div>
+              </el-col>
+            </el-row>
+          </template>
+        </el-scrollbar>
+      </template>
+      <template v-else>
+        <div class="province">
+          <div
+            class="province-item"
+            v-for="(item, index) in Object.keys(provinces)"
+            :key="index"
+            @click="clickChat(item)"
+          >
+            {{ item }}
+          </div>
+        </div>
+        <el-scrollbar max-height="300">
+          <template
+            v-for="(item, index) in Object.values(provinces)"
+            :key="index"
+          >
+            <template v-for="(item1, index1) in item" :key="index1">
+              <el-row style="margin-bottom: 10px" :id="item1.id">
+                <el-col :span="3">{{ item1.name }}:</el-col>
+                <el-col :span="21" class="province-name">
+                  <div
+                    class="province-name-item"
+                    v-for="(item2, index2) in item1.data"
+                    :key="index2"
+                  >
+                    <div @click="clickProvince(item2)">{{ item2 }}</div>
+                  </div>
+                </el-col>
+              </el-row>
+            </template>
+          </template>
+        </el-scrollbar>
+      </template>
     </div>
   </el-popover>
 </template>
@@ -73,10 +108,11 @@
 import { ref } from "vue";
 import city from "../lib/city";
 import { City } from "./types";
+import province from "../lib/province.json";
 
 // 被子组件内部点击的时候，要通知父组件，选择的是哪一个：
 // 分发事件
-let emits = defineEmits(["change"]);
+let emits = defineEmits(["changeCity", "changeProvince"]);
 
 // 有区域供用户所点击，存在初始值和箭头；
 // 箭头有动画效果，点开向上，再点击向下；
@@ -114,6 +150,8 @@ const options = ref([
 ]);
 // 所有的城市数据
 let cities = ref(city.cities);
+// 所有省份的数据
+let provinces = ref(province);
 
 // 点击每个城市
 let clickItem = (item: City) => {
@@ -122,7 +160,12 @@ let clickItem = (item: City) => {
   result.value = item.name;
   // ⭐ 这就是为什么要绑定 visible 的原因，因为要手动的关闭弹出层。
   visible.value = false;
-  emits("change", item);
+  emits("changeCity", item);
+};
+let clickProvince = (item: string) => {
+  result.value = item;
+  visible.value = false;
+  emits("changeProvince", item);
 };
 
 // 点击字母区域
@@ -153,7 +196,8 @@ svg {
 .container {
   padding: 6px;
 }
-.city {
+.city,
+.province {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -167,7 +211,8 @@ svg {
     cursor: pointer;
   }
 }
-.city-name {
+.city-name,
+.province-name {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
