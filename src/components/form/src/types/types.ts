@@ -30,7 +30,7 @@ export interface FormOptions {
     | "transfer" // 穿梭框
     | "upload"; // 上传器
   // 表单项的值
-  value: any;
+  value?: any;
   // 表单项label
   label?: string;
   // 表单项的标识
@@ -49,4 +49,22 @@ export interface FormOptions {
   };
   // 表单项的子元素
   children?: FormOptions[];
+  // 处理上传组件的属性和方法
+  uploadAttrs?: {
+    action: string; // 必传项，要传到服务器的哪里。
+    headers?: Object; // Headers | Record<string, any>;
+    method?: "post" | "put" | "patch";
+    multiple?: boolean;
+    data?: any; // Record<string, any>;
+    name?: string;
+    withCredentials?: boolean;
+    showFileList?: boolean;
+    drag?: boolean;
+    accept?: string;
+    fileList?: any[];
+    listType?: "text" | "picture" | "picture-card";
+    autoUpload?: boolean;
+    disabled?: boolean;
+    limit?: number;
+  };
 }

@@ -1,6 +1,15 @@
 <template>
   <div>
-    <m-form label-width="100px" :options="options"></m-form>
+    <m-form label-width="100px" :options="options">
+      <template #uploadArea>
+        <el-button size="small" type="primary">Click to upload</el-button>
+      </template>
+      <template #uploadTip>
+        <div style="color: #ccc; font-size: 12px; margin-top: 7px">
+          jpg/png files with a size less than 500KB.
+        </div>
+      </template>
+    </m-form>
   </div>
 </template>
 
@@ -146,6 +155,21 @@ let options: FormOptions[] = [
         type: "radio",
         label: "保密",
         value: "not",
+      },
+    ],
+  },
+  {
+    type: "upload",
+    label: "上传",
+    prop: "pic",
+    uploadAttrs: {
+      action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
+    },
+    rules: [
+      {
+        required: true,
+        message: "上传不能为空",
+        trigger: "change",
       },
     ],
   },

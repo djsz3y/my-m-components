@@ -13,10 +13,29 @@
         :label="item.label"
       >
         <component
+          v-if="item.type !== 'upload'"
           v-bind="item.attrs"
           :is="`el-${item.type}`"
           v-model="model[item.prop!]"
         ></component>
+        <el-upload
+          v-else
+          class="m-component-upload"
+          v-bind="item.uploadAttrs"
+          :on-preview="onPreview"
+          :on-remove="onRemove"
+          :on-success="onSuccess"
+          :on-error="onError"
+          :on-progress="onProgress"
+          :on-change="onChange"
+          :before-upload="beforeUpload"
+          :before-remove="beforeRemove"
+          :http-request="httpRequest"
+          :on-exceed="onExceed"
+        >
+          <slot name="uploadArea"></slot>
+          <slot name="uploadTip"></slot>
+        </el-upload>
       </el-form-item>
       <el-form-item
         v-if="item.children && item.children.length"
@@ -49,6 +68,26 @@
 import { PropType, ref, onMounted, watch } from "vue";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
+import {
+  UploadFile,
+  UploadFiles,
+  UploadProgressEvent,
+  UploadRawFile,
+  UploadRequestOptions,
+} from "element-plus";
+
+let emits = defineEmits([
+  "on-preview",
+  "on-remove",
+  "on-success",
+  "on-error",
+  "on-progress",
+  "on-change",
+  "before-upload",
+  "before-remove",
+  "http-request",
+  "on-exceed",
+]);
 
 let props = defineProps({
   // 表单的配置项
@@ -95,6 +134,36 @@ watch(
     deep: true,
   }
 );
+
+// 上传组件的所有方法
+let onPreview = (uploadFile: UploadFile) => {};
+let onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {};
+let onSuccess = (
+  response: any,
+  uploadFile: UploadFile,
+  uploadFiles: UploadFiles
+) => {};
+let onError = (
+  error: Error,
+  uploadFile: UploadFile,
+  uploadFiles: UploadFiles
+) => {};
+let onProgress = (
+  evt: UploadProgressEvent,
+  uploadFile: UploadFile,
+  uploadFiles: UploadFiles
+) => {};
+let onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {};
+let beforeUpload = (rawFile: UploadRawFile) => {};
+let beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {};
+let httpRequest = (options: UploadRequestOptions) => {};
+let onExceed = (files: File[], uploadFiles: UploadFiles) => {};
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss">
+.m-component-upload {
+  .el-upload {
+    display: block;
+  }
+}
+</style>
