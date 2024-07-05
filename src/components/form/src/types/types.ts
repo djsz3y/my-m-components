@@ -2,7 +2,7 @@
 
 import { RuleItem } from "./rule";
 
-// 表单每一项的配置选线
+// 表单每一项的配置选项
 export interface FormOptions {
   // 表单项显示的元素
   type:
@@ -30,16 +30,16 @@ export interface FormOptions {
     | "upload"; // 上传器
   // 表单项的值
   value: any;
-  // 表单 label
+  // 表单项label
   label?: string;
   // 表单项的标识
   prop?: string;
   // 表单项的验证规则
-  rules?: RuleItem;
+  rules?: RuleItem[];
   // 表单项的占位符
   placeholder?: string;
   // 表单元素特有的属性 暂时给个any类型
-  attrs: {
+  attrs?: {
     clearable?: boolean;
     showPassword?: boolean;
     disabled?: boolean;
