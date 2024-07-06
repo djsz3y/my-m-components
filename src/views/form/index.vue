@@ -1,6 +1,20 @@
 <template>
   <div>
-    <m-form label-width="100px" :options="options">
+    <m-form
+      label-width="100px"
+      :options="options"
+      multiple
+      @on-preview="handlePreview"
+      @on-remove="handleRemove"
+      @on-success="handleSuccess"
+      @on-error="handleError"
+      @on-progress="handleProgress"
+      @on-change="handleChange"
+      @on-exceed="handleExceed"
+      @before-upload="beforeUpload"
+      @before-remove="beforeRemove"
+      @http-request="httpRequest"
+    >
       <template #uploadArea>
         <el-button size="small" type="primary">Click to upload</el-button>
       </template>
@@ -14,6 +28,9 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage, ElMessageBox } from "element-plus";
+import type { UploadProps } from "element-plus";
+
 import { FormOptions } from "../../components/form/src/types/types";
 
 let options: FormOptions[] = [
@@ -174,6 +191,69 @@ let options: FormOptions[] = [
     ],
   },
 ];
+
+const handlePreview: UploadProps["onPreview"] = (uploadFile) => {
+  console.log("handlePreview");
+  console.log(uploadFile);
+};
+
+const handleRemove: UploadProps["onRemove"] = (val: any) => {
+  console.log("handleRemove");
+  console.log(val.uploadFile, val.uploadFiles);
+};
+
+const handleSuccess: UploadProps["onSuccess"] = (val: any) => {
+  console.log("handleSuccess");
+  console.log(val.response, val.uploadFile, val.uploadFiles);
+};
+
+const handleError: UploadProps["onError"] = (val: any) => {
+  console.log("handleError");
+  console.log(val.error, val.uploadFile, val.uploadFiles);
+};
+
+const handleProgress: UploadProps["onProgress"] = (val: any) => {
+  console.log("handleProgress");
+  console.log(val.evt, val.uploadFile, val.uploadFiles);
+};
+
+const handleChange: UploadProps["onChange"] = (val: any) => {
+  console.log("handleChange");
+  console.log(val.uploadFile, val.uploadFiles);
+};
+
+const handleExceed: UploadProps["onExceed"] = (val: any) => {
+  console.log("handleExceed");
+  console.log(val.files, val.uploadFiles);
+  ElMessage.warning(
+    `The limit is 3, you selected ${
+      val.files.length
+    } files this time, add up to ${
+      val.files.length + val.uploadFiles.length
+    } totally`
+  );
+};
+
+const beforeUpload: UploadProps["beforeUpload"] = (rawFile: any) => {
+  console.log("beforeUpload");
+  console.log(rawFile);
+};
+
+const beforeRemove: UploadProps["beforeRemove"] = (val: any) => {
+  console.log("beforeRemove");
+  console.log(val.uploadFile, val.uploadFiles);
+  return ElMessageBox.confirm(
+    `Cancel the transfert of ${val.uploadFile.name} ?`
+  ).then(
+    () => true,
+    () => false
+  );
+};
+
+const httpRequest = (options: any) => {
+  console.log("httpRequest");
+  console.log(options);
+};
 </script>
 
 <style scoped lang="scss"></style>

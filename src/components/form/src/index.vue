@@ -136,28 +136,73 @@ watch(
 );
 
 // 上传组件的所有方法
-let onPreview = (uploadFile: UploadFile) => {};
-let onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {};
+let onPreview = (uploadFile: UploadFile) => {
+  emits("on-preview", uploadFile);
+};
+let onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  emits("on-remove", {
+    uploadFile,
+    uploadFiles,
+  });
+};
 let onSuccess = (
   response: any,
   uploadFile: UploadFile,
   uploadFiles: UploadFiles
-) => {};
+) => {
+  emits("on-success", {
+    response,
+    uploadFile,
+    uploadFiles,
+  });
+};
 let onError = (
   error: Error,
   uploadFile: UploadFile,
   uploadFiles: UploadFiles
-) => {};
+) => {
+  emits("on-error", {
+    error,
+    uploadFile,
+    uploadFiles,
+  });
+};
 let onProgress = (
   evt: UploadProgressEvent,
   uploadFile: UploadFile,
   uploadFiles: UploadFiles
-) => {};
-let onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {};
-let beforeUpload = (rawFile: UploadRawFile) => {};
-let beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {};
-let httpRequest = (options: UploadRequestOptions) => {};
-let onExceed = (files: File[], uploadFiles: UploadFiles) => {};
+) => {
+  emits("on-progress", {
+    evt,
+    uploadFile,
+    uploadFiles,
+  });
+};
+let onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  emits("on-change", {
+    uploadFile,
+    uploadFiles,
+  });
+};
+let onExceed = (files: File[], uploadFiles: UploadFiles) => {
+  emits("on-exceed", {
+    files,
+    uploadFiles,
+  });
+};
+let beforeUpload = (rawFile: UploadRawFile) => {
+  emits("before-upload", rawFile);
+};
+let beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  emits("before-remove", {
+    uploadFile,
+    uploadFiles,
+  });
+};
+// todo
+let httpRequest = (options: UploadRequestOptions) => {
+  emits("http-request", options);
+};
 </script>
 
 <style lang="scss">
