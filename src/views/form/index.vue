@@ -3,7 +3,6 @@
     <m-form
       label-width="100px"
       :options="options"
-      multiple
       @on-preview="handlePreview"
       @on-remove="handleRemove"
       @on-success="handleSuccess"
@@ -23,15 +22,23 @@
           jpg/png files with a size less than 500KB.
         </div>
       </template>
+      <template #action="scope">
+        <el-button type="primary" @click="submitForm(scope)">提交</el-button>
+        <el-button @click="resetForm(scope)">重置</el-button>
+      </template>
     </m-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElMessage, ElMessageBox } from "element-plus";
-import type { UploadProps } from "element-plus";
-
 import { FormOptions } from "../../components/form/src/types/types";
+import { ElMessage, ElMessageBox } from "element-plus";
+import type { FormInstance, UploadProps } from "element-plus";
+
+interface Scope {
+  form: FormInstance; // "element-plus" 或者 /components/form/src/types/types
+  model: any;
+}
 
 let options: FormOptions[] = [
   {
@@ -131,17 +138,17 @@ let options: FormOptions[] = [
       {
         type: "checkbox",
         label: "足球",
-        value: "1",
+        // value: "1",
       },
       {
         type: "checkbox",
         label: "篮球",
-        value: "2",
+        // value: "2",
       },
       {
         type: "checkbox",
         label: "排球",
-        value: "3",
+        // value: "3",
       },
     ],
   },
@@ -181,14 +188,16 @@ let options: FormOptions[] = [
     prop: "pic",
     uploadAttrs: {
       action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
+      multiple: true,
+      limit: 3,
     },
-    rules: [
-      {
-        required: true,
-        message: "上传不能为空",
-        trigger: "change",
-      },
-    ],
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: "图片不能为空",
+    //     trigger: "change",
+    //   },
+    // ],
   },
 ];
 
@@ -253,6 +262,27 @@ const beforeRemove: UploadProps["beforeRemove"] = (val: any) => {
 const httpRequest = (options: any) => {
   console.log("httpRequest");
   console.log(options);
+};
+
+// 提交
+const submitForm = // async
+  (scope: Scope) => {
+    // if (!scope.form) return;
+    // await
+    scope.form.validate((valid, fields) => {
+      if (valid) {
+        console.log("submit!", scope.model);
+        ElMessage.success("提交成功");
+      } else {
+        ElMessage.error("表单填写有误，请检查");
+      }
+    });
+  };
+
+// 重置
+const resetForm = (scope: Scope) => {
+  if (!scope.form) return;
+  scope.form.resetFields();
 };
 </script>
 

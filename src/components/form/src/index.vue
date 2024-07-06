@@ -1,5 +1,6 @@
 <template>
   <el-form
+    ref="form"
     v-if="model"
     :validate-on-rule-change="false"
     :model="model"
@@ -61,6 +62,9 @@
         </component>
       </el-form-item>
     </template>
+    <el-form-item>
+      <slot name="action" :form="form" :model="model"></slot>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -75,6 +79,7 @@ import {
   UploadRawFile,
   UploadRequestOptions,
 } from "element-plus";
+import type { FormInstance } from "element-plus";
 
 let emits = defineEmits([
   "on-preview",
@@ -85,7 +90,6 @@ let emits = defineEmits([
   "on-change",
   "before-upload",
   "before-remove",
-  "http-request",
   "on-exceed",
 ]);
 
@@ -95,10 +99,15 @@ let props = defineProps({
     type: Array as PropType<FormOptions[]>,
     required: true,
   },
+  // 用户自定义上传方法
+  httpRequest: {
+    type: Function,
+  },
 });
 
 let model = ref<any>(null);
 let rules = ref<any>(null);
+let form = ref<FormInstance | null>();
 
 // 初始化表单
 let initForm = () => {
@@ -198,10 +207,6 @@ let beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
     uploadFile,
     uploadFiles,
   });
-};
-// todo
-let httpRequest = (options: UploadRequestOptions) => {
-  emits("http-request", options);
 };
 </script>
 
