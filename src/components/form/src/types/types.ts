@@ -28,7 +28,8 @@ export interface FormOptions {
     | "time-picker" // 时间选择器
     | "time-select" // 时间选择
     | "transfer" // 穿梭框
-    | "upload"; // 上传器
+    | "upload" // 上传器
+    | "editor"; // 编辑器
   // 表单项的值
   value?: any;
   // 表单项label

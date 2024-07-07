@@ -14,13 +14,13 @@
         :label="item.label"
       >
         <component
-          v-if="item.type !== 'upload'"
+          v-if="item.type !== 'upload' && item.type !== 'editor'"
           v-bind="item.attrs"
           :is="`el-${item.type}`"
           v-model="model[item.prop!]"
         ></component>
         <el-upload
-          v-else
+          v-if="item.type === 'upload'"
           class="m-component-upload"
           v-bind="item.uploadAttrs"
           :on-preview="onPreview"
@@ -37,6 +37,7 @@
           <slot name="uploadArea"></slot>
           <slot name="uploadTip"></slot>
         </el-upload>
+        <div id="editor" v-if="item.type === 'editor'"></div>
       </el-form-item>
       <el-form-item
         v-if="item.children && item.children.length"
@@ -69,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, onMounted, watch } from "vue";
+import { PropType, ref, onMounted, watch, nextTick } from "vue";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
 import {
@@ -80,6 +81,7 @@ import {
   UploadRequestOptions,
 } from "element-plus";
 import type { FormInstance } from "element-plus";
+import E from "wangeditor";
 
 let emits = defineEmits([
   "on-preview",
@@ -121,6 +123,22 @@ let initForm = () => {
     props.options.map((item: FormOptions) => {
       m[item.prop!] = item.value;
       r[item.prop!] = item.rules;
+      if (item.type === "editor") {
+        // 初始化富文本
+        // 引入 nextTick 能够获取更新后的dom。
+        nextTick(() => {
+          if (document.getElementById("editor")) {
+            const editor = new E("#editor");
+            editor.config.placeholder = item.placeholder!;
+            editor.create();
+            // 初始化富文本的内容
+            editor.txt.html(item.value);
+            editor.config.onchange = (newHtml: string) => {
+              model.value[item.prop!] = newHtml; // 输入过程中给表单项赋值
+            };
+          }
+        });
+      }
     });
     // 在外面拷贝，不在循环里拷贝
     model.value = cloneDeep(m);

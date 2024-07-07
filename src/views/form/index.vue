@@ -201,6 +201,20 @@ let options: FormOptions[] = [
       },
     ],
   },
+  {
+    type: "editor",
+    value: "",
+    prop: "desc",
+    label: "描述",
+    placeholder: "请输入描述",
+    rules: [
+      {
+        required: true,
+        message: "描述不能为空",
+        trigger: "blur",
+      },
+    ],
+  },
 ];
 
 const handlePreview: UploadProps["onPreview"] = (uploadFile) => {
