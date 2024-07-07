@@ -187,17 +187,19 @@ let options: FormOptions[] = [
     label: "上传",
     prop: "pic",
     uploadAttrs: {
+      // action: "#",
       action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
       multiple: true,
       limit: 3,
+      autoUpload: false,
     },
-    // rules: [
-    //   {
-    //     required: true,
-    //     message: "图片不能为空",
-    //     trigger: "change",
-    //   },
-    // ],
+    rules: [
+      {
+        required: true,
+        message: "图片不能为空",
+        trigger: "change",
+      },
+    ],
   },
 ];
 
@@ -229,6 +231,9 @@ const handleProgress: UploadProps["onProgress"] = (val: any) => {
 const handleChange: UploadProps["onChange"] = (val: any) => {
   console.log("handleChange");
   console.log(val.uploadFile, val.uploadFiles);
+  // let uploadItem = options.find((item) => item.type === "upload")!;
+  // uploadItem?.uploadAttrs?.fileList?.push(val.uploadFile);
+  // uploadItem.uploadAttrs!.fileList = val.uploadFiles;
 };
 
 const handleExceed: UploadProps["onExceed"] = (val: any) => {

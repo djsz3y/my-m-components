@@ -146,9 +146,11 @@ watch(
 
 // 上传组件的所有方法
 let onPreview = (uploadFile: UploadFile) => {
+  // console.log("onPreview");
   emits("on-preview", uploadFile);
 };
 let onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  // console.log("onRemove");
   emits("on-remove", {
     uploadFile,
     uploadFiles,
@@ -159,6 +161,16 @@ let onSuccess = (
   uploadFile: UploadFile,
   uploadFiles: UploadFiles
 ) => {
+  // console.log("onSuccess");
+  // console.log(169, uploadFile, uploadFiles);
+
+  // 上传图片成功 给表单上传项赋值
+  // model: { prop, value } // 怎么赋值？找到 prop value，给 model 赋值即可。
+  let uploadItem = props.options.find((item) => item.type === "upload")!;
+  // 因为在前面（父组件）用的时候，不知道需要哪些数据，
+  // 所以 response, uploadFile, uploadFiles 这三个数据，统统都给他赋值，
+  // 到时候再使用到表单的时候，用户需要用哪个数据，它自己去挑选。
+  model.value[uploadItem.prop!] = { response, uploadFile, uploadFiles };
   emits("on-success", {
     response,
     uploadFile,
@@ -170,6 +182,7 @@ let onError = (
   uploadFile: UploadFile,
   uploadFiles: UploadFiles
 ) => {
+  // console.log("onError");
   emits("on-error", {
     error,
     uploadFile,
@@ -181,6 +194,7 @@ let onProgress = (
   uploadFile: UploadFile,
   uploadFiles: UploadFiles
 ) => {
+  // console.log("onProgress");
   emits("on-progress", {
     evt,
     uploadFile,
@@ -188,21 +202,34 @@ let onProgress = (
   });
 };
 let onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  // console.log("onChange");
+  let uploadItem = props.options.find((item) => item.type === "upload")!;
+  // 取消 自动上传文件。
+  if (!uploadItem?.uploadAttrs!.autoUpload) {
+    model.value[uploadItem.prop!] = {
+      handlerType: "onChange",
+      uploadFile,
+      uploadFiles,
+    };
+  }
   emits("on-change", {
     uploadFile,
     uploadFiles,
   });
 };
 let onExceed = (files: File[], uploadFiles: UploadFiles) => {
+  // console.log("onExceed");
   emits("on-exceed", {
     files,
     uploadFiles,
   });
 };
 let beforeUpload = (rawFile: UploadRawFile) => {
+  // console.log("beforeUpload");
   emits("before-upload", rawFile);
 };
 let beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  // console.log("beforeRemove");
   emits("before-remove", {
     uploadFile,
     uploadFiles,
