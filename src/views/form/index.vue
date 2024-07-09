@@ -1,6 +1,7 @@
 <template>
   <div>
     <m-form
+      ref="form"
       label-width="100px"
       :options="options"
       @on-preview="handlePreview"
@@ -24,7 +25,7 @@
       </template>
       <template #action="scope">
         <el-button type="primary" @click="submitForm(scope)">提交</el-button>
-        <el-button @click="resetForm(scope)">重置</el-button>
+        <el-button @click="resetForm">重置</el-button>
       </template>
     </m-form>
   </div>
@@ -34,6 +35,7 @@
 import { FormOptions } from "../../components/form/src/types/types";
 import { ElMessage, ElMessageBox } from "element-plus";
 import type { FormInstance, UploadProps } from "element-plus";
+import { ref } from "vue";
 
 interface Scope {
   form: FormInstance; // "element-plus" 或者 /components/form/src/types/types
@@ -283,6 +285,8 @@ const httpRequest = (options: any) => {
   console.log(options);
 };
 
+let form = ref();
+
 // 提交
 const submitForm = // async
   (scope: Scope) => {
@@ -298,11 +302,21 @@ const submitForm = // async
     });
   };
 
-// 重置
-const resetForm = (scope: Scope) => {
-  if (!scope.form) return;
-  scope.form.resetFields();
+// 1.父组件-重置表单：
+// 1.1. 不能调用 scope.form 了，
+// 1.2. 应该调用 m-form 取的 ref ——取表单实例上的方法，
+// 1.3. 不调用 scope，所以就不用传了，
+// 1.4. 直接调用表单实例上的方法；
+const resetForm = () => {
+  if (!form.value) return;
+  form.value.resetFields();
 };
+
+// 2.所以这个方法 resetFields：
+// 2.1. 是子组件当中通过 defineExpose 分发出去的，
+// 2.2. 所以这是 vue3 新增的，因为 vue3 移除了 $children 的属性，
+// 2.3. 所以我们获取到它的实例和方法，必须通过 defineExpose 分发出去，
+// 2.4. 然后在父组件通过 ref 获取到组件的实例，上面才有 resetFields 这个方法。
 </script>
 
 <style scoped lang="scss"></style>

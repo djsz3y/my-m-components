@@ -110,6 +110,7 @@ let props = defineProps({
 let model = ref<any>(null);
 let rules = ref<any>(null);
 let form = ref<FormInstance | null>();
+let edit = ref(); // 1.新增一个变量记录当前富文本编辑器创建之后的editor实例。
 
 // 初始化表单
 let initForm = () => {
@@ -136,6 +137,7 @@ let initForm = () => {
             editor.config.onchange = (newHtml: string) => {
               model.value[item.prop!] = newHtml; // 输入过程中给表单项赋值
             };
+            edit.value = editor; // 2.在这赋值，就可以在其他方法里拿到初始化的 editor
           }
         });
       }
@@ -147,6 +149,28 @@ let initForm = () => {
     console.log(rules.value);
   }
 };
+
+// 3.重置表单
+// - 拿到 editor 的实例后，做重置表单的方法：
+let resetFields = () => {
+  // 3.1.重置element-plus的表单
+  // - 有表单实例了，直接调用 resetFields() 方法即可。
+  form.value!.resetFields();
+  // 3.2.重置富文本编辑器的内容
+  // - 获取到富文本的配置项
+  if (props.options && props.options.length) {
+    let editorItem = props.options.find((item) => item.type === "editor")!;
+    edit.value.txt.html(editorItem.value);
+  }
+};
+
+// 4.分发方法
+// ① vue3 新增了一个属性方法 defineExpose() ，
+// ② 用于分发组件上的属性和方法；
+// ③ 那么在父组件就能够获取到方法了。
+defineExpose({
+  resetFields,
+});
 
 onMounted(() => {
   initForm();
