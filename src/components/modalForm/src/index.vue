@@ -1,22 +1,34 @@
 <template>
   <el-dialog v-model="dialogVisible" v-bind="$attrs">
-    <template #default>表单</template>
+    <template #default>
+      <m-form label-width="100px" ref="form" :options="options"></m-form>
+    </template>
     <template #footer>
-      <slot name="footer"></slot>
+      <slot name="footer" :form="form"></slot>
     </template>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { PropType, ref, watch } from "vue";
+import { FormOptions } from "../../form/src/types/types";
+import type { FormInstance } from "element-plus";
 let props = defineProps({
   visible: {
     type: Boolean,
     default: false,
   },
+  // 表单的配置项
+  options: {
+    type: Array as PropType<FormOptions[]>,
+    required: true,
+  },
 });
 
 let emits = defineEmits(["update:visible"]);
+
+// 表单实例
+let form = ref<FormInstance | null>();
 
 // 弹出框的显示与隐藏
 let dialogVisible = ref<boolean>(props.visible);

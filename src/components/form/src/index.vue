@@ -145,8 +145,8 @@ let initForm = () => {
     // 在外面拷贝，不在循环里拷贝
     model.value = cloneDeep(m);
     rules.value = cloneDeep(r);
-    console.log(model.value);
-    console.log(rules.value);
+    // console.log(model.value);
+    // console.log(rules.value);
   }
 };
 
@@ -164,12 +164,27 @@ let resetFields = () => {
   }
 };
 
+// 表单验证
+let validate = () => {
+  // 获取到 element-plus 本身的表单验证方法，只不过实际上包装了一层。
+  // 类似于 `resetFields()` 重置表单方法的 `form.value!.resetFields();`
+  return form.value!.validate;
+};
+
+// 获取表单数据
+let getFormData = () => {
+  return model.value;
+};
+
 // 4.分发方法
 // ① vue3 新增了一个属性方法 defineExpose() ，
 // ② 用于分发组件上的属性和方法；
 // ③ 那么在父组件就能够获取到方法了。
 defineExpose({
   resetFields,
+  validate,
+  // 向外暴露 获取表单数据的方法，而不是暴露 model: model.value ，这样只会获取初始值。
+  getFormData,
 });
 
 onMounted(() => {
