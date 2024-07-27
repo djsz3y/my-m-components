@@ -1,12 +1,35 @@
 <template>
-  <el-dialog v-model="dialogVisible" v-bind="$attrs">
-    <template #default>
-      <m-form label-width="100px" ref="form" :options="options"></m-form>
-    </template>
-    <template #footer>
-      <slot name="footer" :form="form"></slot>
-    </template>
-  </el-dialog>
+  <div :class="{ 'm-choose-icon-dialog-body-height': isScroll }">
+    <el-dialog v-model="dialogVisible" v-bind="$attrs">
+      <template #default>
+        <m-form
+          label-width="100px"
+          ref="form"
+          :options="options"
+          @on-preview="onPreview"
+          @on-remove="onRemove"
+          @on-success="onSuccess"
+          @on-error="onError"
+          @on-progress="onProgress"
+          @on-change="onChange"
+          @on-exceed="onExceed"
+          @before-upload="beforeUpload"
+          @before-remove="beforeRemove"
+          @http-request="httpRequest"
+        >
+          <template #uploadArea>
+            <slot name="uploadArea"></slot>
+          </template>
+          <template #uploadTip>
+            <slot name="uploadTip"></slot>
+          </template>
+        </m-form>
+      </template>
+      <template #footer>
+        <slot name="footer" :form="form"></slot>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -22,6 +45,42 @@ let props = defineProps({
   options: {
     type: Array as PropType<FormOptions[]>,
     required: true,
+  },
+  // 只在屏幕区域内滚动
+  isScroll: {
+    type: Boolean,
+    default: false,
+  },
+  // 下面全是处理上传的事件
+  onPreview: {
+    type: Function,
+  },
+  onRemove: {
+    type: Function,
+  },
+  onSuccess: {
+    type: Function,
+  },
+  onError: {
+    type: Function,
+  },
+  onProgress: {
+    type: Function,
+  },
+  onChange: {
+    type: Function,
+  },
+  onExceed: {
+    type: Function,
+  },
+  beforeUpload: {
+    type: Function,
+  },
+  beforeRemove: {
+    type: Function,
+  },
+  httpRequest: {
+    type: Function,
   },
 });
 

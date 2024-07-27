@@ -2,14 +2,33 @@
   <div>
     <el-button type="primary" @click="open">open</el-button>
     <m-modal-form
+      isScroll
       title="编辑用户"
       width="50%"
       v-model:visible="visible"
       :options="options"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :on-success="handleSuccess"
+      :on-error="handleError"
+      :on-progress="handleProgress"
+      :on-change="handleChange"
+      :on-exceed="handleExceed"
+      :before-upload="beforeUpload"
+      :before-remove="beforeRemove"
+      :http-request="httpRequest"
     >
       <template #footer="{ form }">
         <el-button @click="cancel(form)">取消</el-button>
         <el-button type="primary" @click="confirm(form)">确认</el-button>
+      </template>
+      <template #uploadArea>
+        <el-button size="small" type="primary">Click to upload</el-button>
+      </template>
+      <template #uploadTip>
+        <div style="color: #ccc; font-size: 12px; margin-top: 7px">
+          jpg/png files with a size less than 500KB.
+        </div>
       </template>
     </m-modal-form>
   </div>
@@ -18,8 +37,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { FormOptions } from "../../components/form/src/types/types";
-import type { FormInstance } from "element-plus";
-import { ElMessage } from "element-plus";
+import type { FormInstance, UploadProps } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 // 变量控制弹出框的显示与隐藏。
 let visible = ref<boolean>(false);
 let open = () => {
@@ -87,7 +106,7 @@ let options: FormOptions[] = [
       {
         required: true,
         message: "职位不能为空",
-        trigger: "blur",
+        trigger: "change",
       },
     ],
     children: [
@@ -117,7 +136,7 @@ let options: FormOptions[] = [
       {
         required: true,
         message: "爱好不能为空",
-        trigger: "blur",
+        trigger: "change",
       },
     ],
     children: [
@@ -147,7 +166,7 @@ let options: FormOptions[] = [
       {
         required: true,
         message: "性别不能为空",
-        trigger: "blur",
+        trigger: "change",
       },
     ],
     children: [
@@ -168,25 +187,25 @@ let options: FormOptions[] = [
       },
     ],
   },
-  // {
-  //   type: "upload",
-  //   label: "上传",
-  //   prop: "pic",
-  //   uploadAttrs: {
-  //     // action: "#",
-  //     action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
-  //     multiple: true,
-  //     limit: 3,
-  //     autoUpload: false,
-  //   },
-  //   rules: [
-  //     {
-  //       required: true,
-  //       message: "图片不能为空",
-  //       trigger: "change",
-  //     },
-  //   ],
-  // },
+  {
+    type: "upload",
+    label: "上传",
+    prop: "pic",
+    uploadAttrs: {
+      // action: "#",
+      action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
+      multiple: true,
+      limit: 3,
+      autoUpload: false,
+    },
+    rules: [
+      {
+        required: true,
+        message: "图片不能为空",
+        trigger: "change",
+      },
+    ],
+  },
   {
     type: "editor",
     value: "",
@@ -202,6 +221,72 @@ let options: FormOptions[] = [
     ],
   },
 ];
+
+const handlePreview: UploadProps["onPreview"] = (uploadFile) => {
+  console.log("modalForm", "handlePreview");
+  console.log(uploadFile);
+};
+
+const handleRemove: UploadProps["onRemove"] = (val: any) => {
+  console.log("modalForm", "handleRemove");
+  console.log(val.uploadFile, val.uploadFiles);
+};
+
+const handleSuccess: UploadProps["onSuccess"] = (val: any) => {
+  console.log("modalForm", "handleSuccess");
+  console.log(val.response, val.uploadFile, val.uploadFiles);
+};
+
+const handleError: UploadProps["onError"] = (val: any) => {
+  console.log("modalForm", "handleError");
+  console.log(val.error, val.uploadFile, val.uploadFiles);
+};
+
+const handleProgress: UploadProps["onProgress"] = (val: any) => {
+  console.log("modalForm", "handleProgress");
+  console.log(val.evt, val.uploadFile, val.uploadFiles);
+};
+
+const handleChange: UploadProps["onChange"] = (val: any) => {
+  console.log("modalForm", "handleChange");
+  console.log(val.uploadFile, val.uploadFiles);
+  // let uploadItem = options.find((item) => item.type === "upload")!;
+  // uploadItem?.uploadAttrs?.fileList?.push(val.uploadFile);
+  // uploadItem.uploadAttrs!.fileList = val.uploadFiles;
+};
+
+const handleExceed: UploadProps["onExceed"] = (val: any) => {
+  console.log("modalForm", "handleExceed");
+  console.log(val.files, val.uploadFiles);
+  ElMessage.warning(
+    `The limit is 3, you selected ${
+      val.files.length
+    } files this time, add up to ${
+      val.files.length + val.uploadFiles.length
+    } totally`
+  );
+};
+
+const beforeUpload: UploadProps["beforeUpload"] = (rawFile: any) => {
+  console.log("modalForm", "beforeUpload");
+  console.log(rawFile);
+};
+
+const beforeRemove: UploadProps["beforeRemove"] = (val: any) => {
+  console.log("modalForm", "beforeRemove");
+  console.log(val.uploadFile, val.uploadFiles);
+  return ElMessageBox.confirm(
+    `Cancel the transfert of ${val.uploadFile.name} ?`
+  ).then(
+    () => true,
+    () => false
+  );
+};
+
+const httpRequest = (options: any) => {
+  console.log("modalForm", "httpRequest");
+  console.log(options);
+};
 
 // 点击确认
 let confirm = (form: any) => {
