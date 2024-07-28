@@ -6,7 +6,7 @@
       title="编辑用户"
       width="50%"
       v-model:visible="visible"
-      :options="options"
+      v-model:options="options"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :on-success="handleSuccess"
@@ -30,7 +30,24 @@
           jpg/png files with a size less than 500KB.
         </div>
       </template>
+      <template #addOptions>
+        <el-button
+          @click="addOptions"
+          icon="el-icon-plus"
+          circle
+          size="small"
+          style="font-size: 16px"
+          title="添加表单项"
+        ></el-button>
+      </template>
     </m-modal-form>
+    <!-- <m-modal-form
+      title="添加表单项"
+      width="30%"
+      v-model:visible="visible_modal2"
+      :options="options_modal2"
+    >
+    </m-modal-form> -->
   </div>
 </template>
 
@@ -45,7 +62,73 @@ let open = () => {
   visible.value = true;
 };
 
-let options: FormOptions[] = [
+let i_add = 0;
+/**
+ * 添加表单项
+ */
+const addOptions = () => {
+  const formItem: FormOptions = {
+    type: "input",
+    value: "",
+    label: "label" + i_add,
+    prop: "label" + i_add,
+    attrs: {
+      clearable: true,
+    },
+  };
+  i_add += 1;
+
+  // obj.label
+  options.value.push(formItem);
+};
+
+/**
+ * 删除表单项
+ */
+const deleteOptions = (prop: string) => {
+  console.log(prop);
+  const index = options.value.findIndex((formItem) => formItem.prop === prop);
+  options.value.splice(index, 1);
+};
+
+// let visible_modal2 = ref<boolean>(false);
+// let open_modal2 = () => {
+//   visible_modal2.value = true;
+// };
+// let options_modal2 = ref<FormOptions[]>([
+//   {
+//     type: "select",
+//     value: "",
+//     label: "type",
+//     placeholder: "type",
+//     prop: "type",
+//     attrs: {
+//       style: {
+//         width: "100%",
+//       },
+//     },
+//     children: [
+//       { type: "option", label: "autocomplete", value: "autocomplete" },
+//       { type: "option", label: "cascader", value: "cascader" },
+//       { type: "option", label: "checkbox", value: "checkbox" },
+//       { type: "option", label: "checkbox-group", value: "checkbox-group" },
+//       { type: "option", label: "checkbox-button", value: "checkbox-button" },
+//       { type: "option", label: "color-picker", value: "color-picker" },
+//       { type: "option", label: "date-picker", value: "date-picker" },
+//       { type: "option", label: "input", value: "input" },
+//     ],
+//   },
+//   {
+//     type: "input",
+//     value: "",
+//     label: "label",
+//     placeholder: "label",
+//     prop: "label",
+//   },
+// ]);
+
+// 变量控制表单项的增加与删除
+let options = ref<FormOptions[]>([
   {
     type: "input",
     value: "",
@@ -220,7 +303,7 @@ let options: FormOptions[] = [
       },
     ],
   },
-];
+]);
 
 const handlePreview: UploadProps["onPreview"] = (uploadFile) => {
   console.log("modalForm", "handlePreview");

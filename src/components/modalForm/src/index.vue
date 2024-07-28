@@ -23,6 +23,9 @@
           <template #uploadTip>
             <slot name="uploadTip"></slot>
           </template>
+          <template #addOptions>
+            <slot name="addOptions"></slot>
+          </template>
         </m-form>
       </template>
       <template #footer>

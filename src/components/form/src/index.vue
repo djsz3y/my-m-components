@@ -66,6 +66,9 @@
     <el-form-item>
       <slot name="action" :form="form" :model="model"></slot>
     </el-form-item>
+    <el-form-item>
+      <slot name="addOptions"></slot>
+    </el-form-item>
   </el-form>
 </template>
 
