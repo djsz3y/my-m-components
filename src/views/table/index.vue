@@ -6,6 +6,8 @@
     elementLoadingBackground="rgba(0, 0, 0, .8)"
     :elementLoadingSvg="svg"
     element-loading-svg-view-box="-10, -10, 50, 50"
+    @check="check"
+    @close="close"
   >
     <template #date="{ scope }">
       <el-icon-timer></el-icon-timer>
@@ -28,6 +30,12 @@
       >
       <el-button size="small" type="danger">删除</el-button>
     </template>
+    <!-- <template #editCell="{ scope }">
+      <div style="display: flex">
+        <el-button size="small" type="primary">确认</el-button>
+        <el-button size="small">取消</el-button>
+      </div>
+    </template> -->
   </m-table>
 </template>
 
@@ -42,31 +50,31 @@ interface TableData {
 }
 
 // 1.改造表格数据 3s 后再有
-let tableData = ref<TableData[]>([])
-setTimeout(() => {
-  tableData.value = [
-    {
-      date: '2016-05-03',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-      date: '2016-05-02',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-      date: '2016-05-04',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-      date: '2016-05-01',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    },
-  ]
-}, 3000)
+let tableData = ref<TableData[]>([
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+])
+// setTimeout(() => {
+//   tableData.value =
+// }, 3000)
 
 const svg = `
         <path class="path" d="
@@ -86,6 +94,7 @@ const options: TableOptions[] = [
     prop: 'date',
     align: 'center',
     slot: 'date',
+    editable: true,
     // width: 180
   },
   {
@@ -98,6 +107,7 @@ const options: TableOptions[] = [
     label: '地址',
     prop: 'address',
     align: 'center',
+    editable: true,
   },
   // 使用 computed 计算属性把操作选项过滤出来。
   {
@@ -107,8 +117,19 @@ const options: TableOptions[] = [
   },
 ]
 
+// 点击编辑
 let edit = (scope: any) => {
   console.log(scope)
+}
+
+// 点击勾
+let check = (scope: any) => {
+  console.log('父组件', scope)
+}
+
+// 点击叉
+let close = (scope: any) => {
+  console.log('父组件', scope)
 }
 </script>
 
