@@ -7,4 +7,9 @@
 
 <script setup lang="ts"></script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+svg {
+  width: 1em;
+  height: 1em;
+}
+</style>
