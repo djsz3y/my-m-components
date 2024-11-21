@@ -30,63 +30,63 @@
 <script setup lang="ts">
 let data1 = [
   {
-    a: "导航1",
-    b: "1",
-    c: "Document",
+    a: '导航1',
+    b: '1',
+    c: 'Document',
   },
   {
-    a: "导航2",
-    b: "2",
-    c: "Document",
+    a: '导航2',
+    b: '2',
+    c: 'Document',
   },
   {
-    a: "导航3",
-    b: "3",
-    c: "Document",
+    a: '导航3',
+    b: '3',
+    c: 'Document',
     d: [
       {
-        a: "导航3-1",
-        b: "3-1",
-        c: "Document",
+        a: '导航3-1',
+        b: '3-1',
+        c: 'Document',
       },
     ],
   },
-];
+]
 let data2 = [
   {
-    a: "导航1",
-    b: "1",
-    c: "Document",
+    a: '导航1',
+    b: '1',
+    c: 'Document',
   },
   {
-    a: "导航2",
-    b: "2",
-    c: "Document",
+    a: '导航2',
+    b: '2',
+    c: 'Document',
   },
   {
-    a: "导航3",
-    b: "3",
-    c: "Document",
+    a: '导航3',
+    b: '3',
+    c: 'Document',
     d: [
       {
-        a: "导航3-1",
-        b: "3-1",
-        c: "Document",
+        a: '导航3-1',
+        b: '3-1',
+        c: 'Document',
         d: [
           {
-            a: "导航3-1-1",
-            b: "3-1-1",
-            c: "Document",
+            a: '导航3-1-1',
+            b: '3-1-1',
+            c: 'Document',
             d: [
               {
-                a: "导航3-1-1-1",
-                b: "3-1-1-1",
-                c: "Document",
+                a: '导航3-1-1-1',
+                b: '3-1-1-1',
+                c: 'Document',
                 d: [
                   {
-                    a: "导航3-1-1-1-1",
-                    b: "3-1-1-1-1",
-                    c: "Document",
+                    a: '导航3-1-1-1-1',
+                    b: '3-1-1-1-1',
+                    c: 'Document',
                   },
                 ],
               },
@@ -96,23 +96,23 @@ let data2 = [
       },
     ],
   },
-];
+]
 
 let handleSelect1 = (val: any) => {
-  console.log("select", val);
-};
+  console.log('select', val)
+}
 
 let handleSelect2 = (val: any) => {
-  console.log("select", val);
-};
+  console.log('select', val)
+}
 
 let handleClick1 = (val: any) => {
-  console.log("click", val);
-};
+  console.log('click', val)
+}
 
 let handleClick2 = (val: any) => {
-  console.log("click", val);
-};
+  console.log('click', val)
+}
 </script>
 
 <style scoped lang="scss"></style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <m-notification :value="50"></m-notification>
+    <m-notification :value="50"></m-notification>
     <br />
     <br />
     <m-notification :value="50" :max="30"></m-notification>
@@ -9,7 +9,9 @@
     <m-notification :value="50" isDot></m-notification>
     <br />
     <br />
-    <m-notification icon="ChatRound" :value="50"></m-notification> -->
+    <m-notification icon="ChatDotRound" :value="49"></m-notification>
+    <br />
+    <br />
     <m-notification :value="50">
       <template #default>
         <m-list
@@ -22,7 +24,7 @@
     </m-notification>
     <br />
     <br />
-    
+
     添加 disabled 属性：
     <m-notification :value="100" disabled>
       <template #default>
@@ -38,13 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import { list, actions } from "./data.ts";
+import { list, actions } from './data.ts'
 let clickItem = (val: any) => {
-  console.log(val);
-};
+  console.log(val)
+}
 let clickAction = (val: any) => {
-  console.log(val);
-};
+  console.log(val)
+}
 </script>
 
 <style scoped lang="scss"></style>
