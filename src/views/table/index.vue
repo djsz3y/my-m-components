@@ -6,8 +6,8 @@
     elementLoadingBackground="rgba(0, 0, 0, .8)"
     :elementLoadingSvg="svg"
     element-loading-svg-view-box="-10, -10, 50, 50"
-    @check="check"
-    @close="close"
+    @confirm="confirm"
+    @cancel="cancel"
   >
     <template #date="{ scope }">
       <el-icon-timer></el-icon-timer>
@@ -119,17 +119,17 @@ const options: TableOptions[] = [
 
 // 点击编辑
 let edit = (scope: any) => {
-  console.log(scope)
+  // console.log(scope)
 }
 
 // 点击勾
-let check = (scope: any) => {
-  console.log('父组件', scope)
+let confirm = (scope: any) => {
+  // console.log('父组件', scope)
 }
 
 // 点击叉
-let close = (scope: any) => {
-  console.log('父组件', scope)
+let cancel = (scope: any) => {
+  // console.log('父组件', scope)
 }
 </script>
 

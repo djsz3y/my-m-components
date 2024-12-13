@@ -32,11 +32,11 @@
                 <div class="icons" v-else>
                   <el-icon-check
                     class="check"
-                    @click="check(scope)"
+                    @click="confirm(scope)"
                   ></el-icon-check>
                   <el-icon-close
                     class="close"
-                    @click="close(scope)"
+                    @click="cancel(scope)"
                   ></el-icon-close>
                 </div>
               </div>
@@ -122,10 +122,15 @@ let props = defineProps({
     type: String,
     default: 'edit',
   },
+  // 是否可以编辑行
+  isEditRow: {
+    type: Boolean,
+    default: false
+  },
 })
 
 // 分发事件
-let emits = defineEmits(['check', 'close'])
+let emits = defineEmits(['confirm', 'cancel'])
 
 // 当前点击的单元格
 let currentEdit = ref<string>('')
@@ -142,13 +147,13 @@ let clickEditCell = () => {
 }
 
 // 点击勾
-let check = (scope: any) => {
-  emits('check', scope)
+let confirm = (scope: any) => {
+  emits('confirm', scope)
 }
 
 // 点击叉
-let close = (scope: any) => {
-  emits('close', scope)
+let cancel = (scope: any) => {
+  emits('cancel', scope)
 }
 
 // 过滤操作选项之后的配置
