@@ -7,8 +7,11 @@ import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import { toLine } from './utils'
 // import mUI from "./components";
-import mUI from '../lib/djsz3y-element-components.mjs'
-import '../lib/style.css'
+// import mUI from '../lib/djsz3y-element-components.mjs'
+// import '../lib/style.css'
+// 单独引入组件
+import chooseIcon from '../lib/chooseIcon/index.mjs'
+import '../lib/chooseIcon/style.css'
 
 const app = createApp(App)
 
@@ -18,5 +21,11 @@ for (let i in Icons) {
   app.component(`el-icon-${toLine(i)}`, (Icons as any)[i]) // 注册全局组件
 }
 
-app.use(router).use(ElementPlus).use(mUI)
+app
+  .use(router)
+  .use(ElementPlus)
+  // .use(mUI)
+  .use(chooseIcon)
+// 单独使用某一个组件，类似于使用每一个组件下的 index.ts 文件。
+// 之前已经把组件的注册设计好了。
 app.mount('#app')
