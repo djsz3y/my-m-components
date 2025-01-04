@@ -13,6 +13,15 @@ import { toLine } from './utils'
 import chooseIcon from '../lib/chooseIcon/index.mjs'
 import '../lib/chooseIcon/style.css'
 
+// --------------------------------------------------
+
+// // 要发布的包-全量引入【done】：
+// import mUI from '../lib_djsz3y-ui-ele-plus/djsz3y-ui-ele-plus.mjs'
+// import '../lib_djsz3y-ui-ele-plus/style.css'
+// // 要发布的包-单独引入组件【done】：
+// import chooseIcon from '../lib_djsz3y-ui-ele-plus/chooseIcon/index.mjs'
+// import '../lib_djsz3y-ui-ele-plus/chooseIcon/style.css'
+
 const app = createApp(App)
 
 // 全局注册图标 牺牲一点性能

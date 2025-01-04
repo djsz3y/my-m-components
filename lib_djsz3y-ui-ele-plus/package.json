@@ -1,0 +1,20 @@
+{
+  "name": "djsz3y-ui-ele-plus",
+  "version": "1.0.1",
+  "main": "index.umd.js",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "author": {
+    "name": "djsz3y"
+  },
+  "keywords": [
+    "element-plus",
+    "ts",
+    "封装组件",
+    "二次封装",
+    "vue-components",
+    "element-components",
+    "djsz3y-ui-ele-plus",
+    "djsz3y-ui"
+  ]
+}

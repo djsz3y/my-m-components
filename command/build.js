@@ -8,7 +8,7 @@ const fs = require('fs')
 // 打包入口文件夹
 const entryDir = path.resolve(__dirname, '../packages')
 // 出口文件夹
-const outDir = path.resolve(__dirname, '../lib')
+const outDir = path.resolve(__dirname, '../lib_djsz3y-ui-ele-plus')
 
 // vite 基础配置
 // https://vitejs.dev/config/
@@ -36,8 +36,8 @@ const buildAll = async () => {
       rollupOptions,
       lib: {
         entry: path.resolve(entryDir, 'index.ts'),
-        name: 'djsz3y-element-components',
-        fileName: 'djsz3y-element-components',
+        name: 'djsz3y-ui-ele-plus',
+        fileName: 'djsz3y-ui-ele-plus',
         formats: ['es', 'umd'],
       },
       outDir,
@@ -70,7 +70,7 @@ const createPackageJson = (name) => {
       "name": "${name}",
       "main": "index.umd.js",
       "module": "index.mjs",
-      "style": "styles.css"
+      "style": "style.css"
     }
   `
   // const fileStr2 = `
