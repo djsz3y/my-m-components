@@ -6,21 +6,14 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import { toLine } from './utils'
-// import mUI from "./components";
-// import mUI from '../lib/djsz3y-element-components.mjs'
-// import '../lib/style.css'
-// 单独引入组件
-import chooseIcon from '../lib/chooseIcon/index.mjs'
-import '../lib/chooseIcon/style.css'
+// import mUI from './components'
 
-// --------------------------------------------------
-
-// // 要发布的包-全量引入【done】：
-// import mUI from '../lib_djsz3y-ui-ele-plus/djsz3y-ui-ele-plus.mjs'
-// import '../lib_djsz3y-ui-ele-plus/style.css'
-// // 要发布的包-单独引入组件【done】：
-// import chooseIcon from '../lib_djsz3y-ui-ele-plus/chooseIcon/index.mjs'
-// import '../lib_djsz3y-ui-ele-plus/chooseIcon/style.css'
+// 发布组件库【全量引入组件】
+import djsz3yUI from '../lib'
+import '../lib/style.css'
+// 发布组件库【按需引入组件】
+// import chooseIcon from '../lib/chooseIcon/index.mjs'
+// import '../lib/chooseIcon/style.css'
 
 const app = createApp(App)
 
@@ -34,7 +27,11 @@ app
   .use(router)
   .use(ElementPlus)
   // .use(mUI)
-  .use(chooseIcon)
+
+  // 引入发布的组件
+  .use(djsz3yUI)
+// .use(chooseIcon)
+
 // 单独使用某一个组件，类似于使用每一个组件下的 index.ts 文件。
 // 之前已经把组件的注册设计好了。
 app.mount('#app')

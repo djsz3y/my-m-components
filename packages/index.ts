@@ -18,6 +18,9 @@ import table from './table'
 import './styles/base.scss'
 import './styles/ui.scss'
 
+import * as Icons from '@element-plus/icons-vue'
+import { toLine } from './utils'
+
 const components = [
   chooseArea,
   chooseTown,
@@ -38,6 +41,11 @@ const components = [
 
 export default {
   install(app: App) {
+    // 全局注册图标 牺牲一点性能
+    // el-icon-xxx 驼峰命名法，用工具函数转换为 短横线命名法
+    for (let i in Icons) {
+      app.component(`el-icon-${toLine(i)}`, (Icons as any)[i]) // 注册全局组件
+    }
     components.map((item) => {
       // item 是一个对象，对象里有一个 install 方法，
       // install 方法就是通过 app 注册的全局组件

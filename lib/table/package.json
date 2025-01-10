@@ -3,6 +3,6 @@
       "name": "table",
       "main": "index.umd.js",
       "module": "index.mjs",
-      "style": "styles.css"
+      "style": "style.css"
     }
   
